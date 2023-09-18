@@ -1,4 +1,5 @@
 ﻿using EFCorePeliculas.Entidades;
+using EFCorePeliculas.Entidades.Seeding;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -25,6 +26,9 @@ namespace EFCorePeliculas
             
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            SeedingModuloConsulta.Seed(modelBuilder);
+
          
 
         }
