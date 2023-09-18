@@ -9,5 +9,10 @@
 
         public string PosterURL { get; set; }
 
+        public HashSet<Genero> Generos { get; set; }
+
+        public HashSet<SalaDeCine> SalasDeCines { get; set; }
+
+        public HashSet<PeliculaActor> PeliculasActores { get; set; }
     }
 }

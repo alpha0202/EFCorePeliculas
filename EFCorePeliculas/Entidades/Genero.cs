@@ -11,5 +11,7 @@ namespace EFCorePeliculas.Entidades
         public int Identificador { get; set; }
         //[StringLength(150)]
         public string Nombre { get; set; }
+
+        public HashSet<Pelicula> Peliculas { get; set; }
     }
 }
