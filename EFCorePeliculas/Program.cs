@@ -17,7 +17,12 @@ namespace EFCorePeliculas
             builder.Services.AddSwaggerGen();
             
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<ApplicationDBContext>(opciones => opciones.UseSqlServer(connectionString,sqlserver => sqlserver.UseNetTopologySuite()));
+            builder.Services.AddDbContext<ApplicationDBContext>(opciones =>
+                                                                            { 
+                                                                                opciones.UseSqlServer(connectionString, sqlserver => sqlserver.UseNetTopologySuite());
+                                                                                opciones.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                                                                            }
+                                                                            );
 
             var app = builder.Build();
 
