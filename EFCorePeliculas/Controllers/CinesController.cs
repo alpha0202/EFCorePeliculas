@@ -50,5 +50,52 @@ namespace EFCorePeliculas.Controllers
             return Ok(cines);
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> Post()
+        {
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var ubicacionCine = geometryFactory.CreatePoint(new Coordinate(7.063569639451647, -73.087811395785));
+
+
+            var cine = new Cine()
+            {
+                Nombre = "Cañaveral",
+                Ubicacion = ubicacionCine,
+                CineOferta = new CineOferta()
+                {
+                    PorcentajeDescuento = 5,
+                    FechaInicio = DateTime.Today,
+                    FechaFin = DateTime.Today.AddDays(7),
+
+
+                },
+                SalasDeCines = new HashSet<SalaDeCine> {
+                    new SalaDeCine
+                    {
+                        Precio = 200,
+                        TipoSalaDeCine = TipoSalaDeCine.DosDimensiones
+                    },
+                    new SalaDeCine
+                    {
+                        Precio = 350,
+                        TipoSalaDeCine = TipoSalaDeCine.TresDimensiones
+                    },
+
+
+                }
+            };
+
+
+            _context.Add(cine); 
+            _context.SaveChanges();
+            return Ok();
+
+         
+        }
+
+      
+
+
     }
 }
