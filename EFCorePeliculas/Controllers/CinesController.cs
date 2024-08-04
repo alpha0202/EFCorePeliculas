@@ -44,14 +44,14 @@ namespace EFCorePeliculas.Controllers
                               .Select(c => new
                               {
                                   Nombre = c.Nombre,
-                                  Distancia = Math.Round(c.Ubicacion.Distance(miUbicacion))
+                                 Distancia = Math.Round(c.Ubicacion.Distance(miUbicacion))
                               }).ToListAsync();
 
             return Ok(cines);
         }
 
 
-        [HttpPost]
+        [HttpPost] //Insertar cine con data relacionada
         public async Task<ActionResult> Post()
         {
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
@@ -88,13 +88,26 @@ namespace EFCorePeliculas.Controllers
 
 
             _context.Add(cine); 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
 
          
         }
 
-      
+
+        [HttpPost("conDTO")] // Insertar cine con data relacionada utilizado automapper
+        public async Task<ActionResult> Post(CineCreacionDTO cineCreacionDTO)
+        {
+            var cine = _mapper.Map<Cine>(cineCreacionDTO);
+            _context.Add(cine);
+            await  _context.SaveChangesAsync();
+            return Ok();
+        }
+
+
+
+        //[HttpPut("{id:int}")]
+        //public async Task<ActionResult> Put(CineCreacionDTO )
 
 
     }
