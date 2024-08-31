@@ -48,7 +48,7 @@ namespace EFCorePeliculas.Controllers
         [HttpPut("{id:int}")]      //actualización con modelo conectado
         public async Task<ActionResult> Put(ActorCreacionDTO actorCreacionDTO, int id)
         {
-            var actorDB = await _context.Actores.AsTracking().SingleOrDefaultAsync(a => a.Id == id);
+            var actorDB = await _context.Actores.AsTracking().FirstOrDefaultAsync(a => a.Id == id);
 
             if (actorDB is null)
             {

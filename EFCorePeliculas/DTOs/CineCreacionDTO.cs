@@ -9,7 +9,7 @@ namespace EFCorePeliculas.DTOs
         public double Latitud { get; set; }
         public double Longitud { get; set; }
         public CineOfertaCreacionDTO CineOferta { get; set; }
-        public HashSet<SalaDeCineCreacionDTO> SalaDeCine { get; set; }
+        public HashSet<SalaDeCineCreacionDTO> SalasDeCines { get; set; }
 
     }
 }

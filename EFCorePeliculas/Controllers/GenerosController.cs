@@ -93,6 +93,49 @@ namespace EFCorePeliculas.Controllers
         }
 
 
+        [HttpDelete("{id:int}")] //borrado normal
+        public async Task<ActionResult> Delete(int id)
+        {
+            var genero = await _dbContext.Generos.FirstOrDefaultAsync(g => g.Identificador == id);
 
+            if (genero is null)
+                return NotFound();
+
+            _dbContext.Remove(genero);
+            await _dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
+
+        [HttpDelete("borradologico/{id:int}")] //borrado suave o lógico. Marcar como borrado
+        public async Task<ActionResult> DeleteSoft(int id)
+        {
+            var genero = await _dbContext.Generos.AsTracking().FirstOrDefaultAsync(g => g.Identificador == id);
+
+
+            if (genero is null)
+                return NotFound();
+
+           genero.EstaBorrado = true;
+            await _dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
+
+        [HttpPost("restaurar/{id:int}")] // saltarse el QueryFilter del modelo, cuando se quiere mostrar toda la data 
+        public async Task<ActionResult> Restaurar(int id)
+        {
+            var genero = await _dbContext.Generos.AsTracking()
+                                                  .IgnoreQueryFilters()
+                                                  .FirstOrDefaultAsync(g => g.Identificador == id);
+
+
+            if (genero is null)
+                return NotFound();
+
+            genero.EstaBorrado = false;
+            await _dbContext.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
