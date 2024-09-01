@@ -21,6 +21,10 @@ namespace EFCorePeliculas.Controllers
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get()
         {
+            //ejemplo uso de log manual
+            _dbContext.Logs.Add(new Log { Mensaje = "ejecutando el método GenerosControllores.Get" });
+            await _dbContext.SaveChangesAsync();
+
             return await _dbContext.Generos.OrderBy(g => g.Nombre).ToListAsync();
         }
 
@@ -72,17 +76,34 @@ namespace EFCorePeliculas.Controllers
             return generos;
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult> Post(Genero genero)
+        //{
+        //    var status1 = _dbContext.Entry(genero).State;
+        //    _dbContext.Add(genero);
+        //    var status2 = _dbContext.Entry(genero).State;
+        //    await _dbContext.SaveChangesAsync();
+        //    var status3 = _dbContext.Entry(genero).State;
+
+        //    return Ok();
+        //}
+
         [HttpPost]
         public async Task<ActionResult> Post(Genero genero)
         {
-            var status1 = _dbContext.Entry(genero).State;
-            _dbContext.Add(genero);
-            var status2 = _dbContext.Entry(genero).State;
+           
+            var generoExiste = await _dbContext.Generos.AnyAsync(g => g.Nombre == genero.Nombre);
+
+            if (generoExiste)
+                return BadRequest($"Ya existe un género con el nombre: {genero.Nombre}");
+
+            _dbContext.Generos.Add(genero);
             await _dbContext.SaveChangesAsync();
-            var status3 = _dbContext.Entry(genero).State;
+            
 
             return Ok();
         }
+
 
         [HttpPost("varios")]
         public async Task<ActionResult> Post(Genero[] generos)

@@ -14,6 +14,8 @@ namespace EFCorePeliculas.Entidades.Configuraciones
                 .IsRequired();
             
             builder.HasQueryFilter(g => !g.EstaBorrado); //filtro a nivel de modelo 
+            builder.HasIndex(g=> g.Nombre).IsUnique(); //crear index para el campo nombre
+
         }
     }
 }
